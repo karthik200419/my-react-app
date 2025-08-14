@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FALLBACK_POSTER } from '../utils/omdb';
-
-
 
 export default function DetailsModal({ item, onClose }) {
   const [details, setDetails] = useState(null);
@@ -44,7 +41,7 @@ export default function DetailsModal({ item, onClose }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <img
-                src={details.Poster !== 'N/A' ? details.Poster : FALLBACK_POSTER}
+                src={details.Poster !== 'N/A' ? details.Poster : "https://via.placeholder.com/300x450?text=No+Image"}
                 alt={details.Title}
                 className="w-full rounded-lg"
               />
