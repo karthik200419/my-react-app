@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { omdbFetch, FALLBACK_POSTER } from '../utils/omdb';
+import { FALLBACK_POSTER } from '../utils/omdb';
+
+
 
 export default function DetailsModal({ item, onClose }) {
   const [details, setDetails] = useState(null);
