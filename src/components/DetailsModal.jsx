@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FALLBACK_POSTER } from '../utils/omdb';
-
+import { omdbFetch, FALLBACK_POSTER } from '../utils/omdb';
 
 export default function DetailsModal({ item, onClose }) {
   const [details, setDetails] = useState(null);
@@ -9,20 +8,22 @@ export default function DetailsModal({ item, onClose }) {
 
   useEffect(() => {
     let mounted = true;
+
     async function load() {
       setLoading(true);
       try {
-        const url = `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&i=${item.imdbID}&plot=full`;
-        const res = await fetch(url);
-        const data = await res.json();
+        // Use omdbFetch instead of inline fetch
+        const data = await omdbFetch({ query: item.Title, type: 'movie', id: item.imdbID });
+
         if (!mounted) return;
-        if (data.Response === "True") setDetails(data);
+        if (data) setDetails(data);
       } catch (err) {
         console.error(err);
       } finally {
         if (mounted) setLoading(false);
       }
     }
+
     load();
     return () => { mounted = false; };
   }, [item]);
@@ -37,13 +38,14 @@ export default function DetailsModal({ item, onClose }) {
         className="relative max-w-4xl w-full bg-white dark:bg-slate-900 rounded-2xl shadow p-6 overflow-auto z-10"
       >
         <button onClick={onClose} className="absolute right-4 top-4 text-sm opacity-80">Close</button>
+
         {loading ? (
           <div className="py-20 text-center">Loading…</div>
         ) : details ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <img
-                src={details.Poster !== 'N/A' ? details.Poster : "https://via.placeholder.com/300x450?text=No+Image"}
+                src={details.Poster !== 'N/A' ? details.Poster : FALLBACK_POSTER}
                 alt={details.Title}
                 className="w-full rounded-lg"
               />
