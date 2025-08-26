@@ -5,11 +5,12 @@ import { omdbFetch, FALLBACK_POSTER } from '../utils/omdb';
 import MovieCard from '../components/MovieCard';
 import DetailsModal from '../components/DetailsModal';
 import SearchBar from '../components/SearchBar';
+import './Home.css';
 
 export default function Home() {
   const [mediaType, setMediaType] = useState('movie');
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState([]); 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
